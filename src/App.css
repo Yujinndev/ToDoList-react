@@ -1,0 +1,41 @@
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+.form-container,
+.lists {
+  display: flex;
+  flex: 3 0 50rem;
+  justify-content: center;
+  width: 80vw;
+  gap: 10px;
+  padding: 10px;
+}
+
+.todo-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 4px;
+  padding: 1rem;
+  background-color: rgb(109, 109, 109);
+  gap: 0.5rem;
+}
+
+.form-input {
+  outline: none;
+  border: 0;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  font-size: 20px;
+}
+
+.btn {
+  background-color: none;
+  padding: 0rem 0.5rem;
+  font-size: 12px;
+  border-radius: 4px;
+}
