@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import "./App.css";
 import TodoItem from "./TodoItem";
 
@@ -9,6 +9,14 @@ function App() {
     { id: 0, name: "Code In React", status: "Done" },
     { id: 1, name: "Sleep, then Repeat", status: "Ongoing" },
   ]);
+  const inputRef = useRef();
+
+  useEffect(() => {
+    // this will make the input in focus
+    if (editingItemId !== "") {
+      inputRef.current.focus();
+    }
+  }, [editingItemId]);
 
   const findTodoById = (itemId) => {
     return todos.find((todo) => todo.id === itemId);
@@ -18,7 +26,6 @@ function App() {
     if (newTodo === "") return;
 
     const itemToEdit = findTodoById(editingItemId);
-
     if (itemToEdit) {
       // Editing existing item
       itemToEdit.name = newTodo;
@@ -58,6 +65,7 @@ function App() {
           placeholder="New todo"
           value={newTodo}
           onChange={(e) => setNewTodo(e.target.value)}
+          ref={inputRef} // Ref for focusing the input field
         />
         <button type="submit" onClick={handleSave}>
           Save
