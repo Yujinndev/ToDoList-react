@@ -5,10 +5,21 @@
   text-align: center;
 }
 
+.form-input {
+  outline: none;
+  border: 0;
+  padding: 1.2rem;
+  border-radius: 0.5rem;
+  font-size: 16px;
+  min-width: 9rem;
+  width: 25vw;
+}
+
 .form-container,
 .lists {
   display: flex;
   flex: 3 0 50rem;
+  flex-wrap: wrap;
   justify-content: center;
   width: 80vw;
   gap: 10px;
@@ -17,25 +28,43 @@
 
 .todo-item {
   display: flex;
+  position: relative;
   justify-content: space-between;
   align-items: center;
   border-radius: 4px;
   padding: 1rem;
   background-color: rgb(109, 109, 109);
   gap: 0.5rem;
+  flex: 2 0 3rem;
 }
 
-.form-input {
-  outline: none;
-  border: 0;
-  padding: 1rem;
-  border-radius: 0.5rem;
-  font-size: 20px;
+.badge {
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: 6px 12px;
+  font: 0.6rem "Courier New", sans-serif;
+  background-color: rgb(67, 67, 67);
+  border-bottom-right-radius: 16px;
+}
+
+.details-text {
+  font: 1.2rem "Arial" 900;
+  line-height: 0.6cm;
+  text-align: left;
 }
 
 .btn {
   background-color: none;
-  padding: 0rem 0.5rem;
+  padding: 0.25rem 0.5rem;
   font-size: 12px;
   border-radius: 4px;
+}
+
+.done {
+  background-color: rgb(60, 119, 47);
+}
+
+.ongoing {
+  background-color: rgb(119, 92, 29);
 }
