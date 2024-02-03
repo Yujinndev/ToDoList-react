@@ -1,4 +1,4 @@
-function TodoItem({ details, onDelete, onEdit }) {
+function TodoItem({ details, onDelete, onEdit, onComplete }) {
   return (
     <div
       className={`todo-item + ${
@@ -13,13 +13,19 @@ function TodoItem({ details, onDelete, onEdit }) {
         <h3 className="details-text">{details.name}</h3>
       </div>
 
-      <div style={{ display: "flex", gap: 2 }}>
+      <div className="btn-container">
         <button className="btn" type="button" onClick={onDelete}>
           <i className="fa fa-trash-o" />
         </button>
         <button className="btn" type="button" onClick={onEdit}>
           <i className="fa fa-pencil" />
         </button>
+
+        {details.status !== "Done" && (
+          <button className="btn black" type="button" onClick={onComplete}>
+            <i className="fa fa-check" />
+          </button>
+        )}
       </div>
     </div>
   );
