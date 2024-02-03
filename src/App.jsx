@@ -4,43 +4,53 @@ import TodoItem from "./TodoItem";
 
 function App() {
   const [newTodo, setNewTodo] = useState("");
-  const [newIndex, setNewIndex] = useState("");
-  const [lists, setLists] = useState([
-    { id: 0, name: "Create Pseudocode", status: "Done" },
-    { id: 1, name: "Translate into Flowchart", status: "Ongoing" },
+  const [editingItemId, setEditingItemId] = useState("");
+  const [todos, setTodos] = useState([
+    { id: 0, name: "Code In React", status: "Done" },
+    { id: 1, name: "Sleep, then Repeat", status: "Ongoing" },
   ]);
 
-  const handleCreate = () => {
+  const findTodoById = (itemId) => {
+    return todos.find((todo) => todo.id === itemId);
+  };
+
+  const handleSave = () => {
     if (newTodo === "") return;
 
-    // to check the index if its exists
-    const isItemExisting = lists.find((list) => {
-      return list.id === newIndex;
-    });
+    const itemToEdit = findTodoById(editingItemId);
 
-    if (isItemExisting) {
-      isItemExisting.name = newTodo;
+    if (itemToEdit) {
+      // Editing existing item
+      itemToEdit.name = newTodo;
     } else {
-      const maxId = Math.max(...lists.map((todo) => todo.id), 0);
-      setLists([...lists, { name: newTodo, id: maxId + 1, status: "Ongoing" }]);
+      // Creating a new item
+      const maxId = Math.max(...todos.map((todo) => todo.id), 0);
+      setTodos([...todos, { name: newTodo, id: maxId + 1, status: "Ongoing" }]);
     }
 
     setNewTodo("");
-    setNewIndex("");
+    setEditingItemId("");
   };
 
   const handleDelete = (item) => {
-    const newLists = lists.filter((list) => list.id !== item.id);
-    setLists(newLists);
+    const newTodos = todos.filter((todo) => todo.id !== item.id);
+    setTodos(newTodos);
   };
 
   const handleEdit = (item) => {
     setNewTodo(item.name);
-    setNewIndex(item.id);
+    setEditingItemId(item.id);
+  };
+
+  const handleCompleted = (item) => {
+    const itemToComplete = findTodoById(item.id);
+    itemToComplete.status = "Done";
+
+    setTodos([...todos]);
   };
 
   return (
-    <>
+    <div>
       <div className="form-container">
         <input
           className="form-input"
@@ -49,25 +59,23 @@ function App() {
           value={newTodo}
           onChange={(e) => setNewTodo(e.target.value)}
         />
-        <input type="hidden" placeholder="For Update" value={newIndex} />
-        <button type="submit" onClick={handleCreate}>
+        <button type="submit" onClick={handleSave}>
           Save
         </button>
       </div>
 
       <div className="lists">
-        {lists.map((item, index) => {
-          return (
-            <TodoItem
-              key={index}
-              details={item}
-              onDelete={() => handleDelete(item)}
-              onEdit={() => handleEdit(item)}
-            />
-          );
-        })}
+        {todos.map((item) => (
+          <TodoItem
+            key={item.id}
+            details={item}
+            onDelete={() => handleDelete(item)}
+            onEdit={() => handleEdit(item)}
+            onComplete={() => handleCompleted(item)}
+          />
+        ))}
       </div>
-    </>
+    </div>
   );
 }
 

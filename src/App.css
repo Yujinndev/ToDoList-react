@@ -54,11 +54,24 @@
   text-align: left;
 }
 
+.btn-container {
+  display: flex;
+  gap: 2px;
+  position: absolute;
+  right: 0;
+  top: 0;
+  padding: 6px 12px;
+}
+
 .btn {
-  background-color: none;
+  background-color: #1a1a1a1a;
   padding: 0.25rem 0.5rem;
   font-size: 12px;
   border-radius: 4px;
+}
+
+.black {
+  background-color: #1a1a1a;
 }
 
 .done {
