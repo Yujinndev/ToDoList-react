@@ -1,3 +1,43 @@
+:root {
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+  box-sizing: border-box;
+
+  color-scheme: light dark;
+  color: rgba(255, 255, 255, 0.87);
+  background-color: #242424;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  margin: 0;
+  display: flex;
+  min-width: 320px;
+  min-height: 100vh;
+}
+
+button {
+  border-radius: 8px;
+  border: 1px solid transparent;
+  padding: 0.6em 1.2em;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  background-color: #1a1a1a;
+  cursor: pointer;
+  transition: border-color 0.25s;
+}
+
+button:hover i,
+button:hover {
+  color: rgb(150, 150, 150);
+}
+
 #root {
   max-width: 1280px;
   margin: 0 auto;
@@ -66,7 +106,7 @@
 .btn {
   background-color: #1a1a1a1a;
   padding: 0.25rem 0.5rem;
-  font-size: 12px;
+  font-size: 10px;
   border-radius: 4px;
 }
 
@@ -80,4 +120,30 @@
 
 .ongoing {
   background-color: rgb(119, 92, 29);
+}
+
+.filter-container {
+  display: flex;
+  position: relative;
+  justify-content: right;
+}
+
+.dropdown-btn {
+  z-index: 10;
+}
+
+.menu {
+  display: flex;
+  flex-direction: column;
+  text-align: start;
+  position: absolute;
+  background-color: #1a1a1a;
+  border: 0.5px solid rgba(255, 255, 255, 0.15);
+  padding: 16px 12px;
+  z-index: 2;
+  border-radius: 3px;
+}
+
+.checkbox-label {
+  font: 12px "Courier New";
 }
