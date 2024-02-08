@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import "./App.css";
-import TodoItem from "./TodoItem";
+import TodoItem from "./components/TodoItem";
+import MenuItems from "./components/MenuItems";
 
 function App() {
   const [newTodo, setNewTodo] = useState("");
@@ -10,6 +11,12 @@ function App() {
     { id: 1, name: "Sleep, then Repeat", status: "Ongoing" },
   ]);
   const inputRef = useRef();
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
+  const [selectedFilter, setSelectedFilter] = useState(null);
+
+  const filteredList = !selectedFilter
+    ? todos
+    : todos.filter((todo) => todo.status === selectedFilter);
 
   useEffect(() => {
     // this will make the input in focus
@@ -18,14 +25,14 @@ function App() {
     }
   }, [editingItemId]);
 
-  const findTodoById = (itemId) => {
-    return todos.find((todo) => todo.id === itemId);
+  const findItemOnArray = (arr, itemId) => {
+    return arr.find((el) => el.id === itemId);
   };
 
   const handleSave = () => {
     if (newTodo === "") return;
 
-    const itemToEdit = findTodoById(editingItemId);
+    const itemToEdit = findItemOnArray(todos, editingItemId);
     if (itemToEdit) {
       // Editing existing item
       itemToEdit.name = newTodo;
@@ -50,10 +57,14 @@ function App() {
   };
 
   const handleCompleted = (item) => {
-    const itemToComplete = findTodoById(item.id);
+    const itemToComplete = findItemOnArray(todos, item.id);
     itemToComplete.status = "Done";
 
     setTodos([...todos]);
+  };
+
+  const assignFilter = (updatedFilter) => {
+    setSelectedFilter(updatedFilter);
   };
 
   return (
@@ -72,16 +83,35 @@ function App() {
         </button>
       </div>
 
+      <div className="filter-container">
+        <button
+          className="dropdown-btn btn"
+          onClick={() => setIsFilterOpen(!isFilterOpen)}
+        >
+          {!isFilterOpen ? (
+            <i className="fa fa-filter" />
+          ) : (
+            <i className="fa fa-angle-up" />
+          )}
+        </button>
+
+        {isFilterOpen && <MenuItems onFilterChange={assignFilter} />}
+      </div>
+
       <div className="lists">
-        {todos.map((item) => (
-          <TodoItem
-            key={item.id}
-            details={item}
-            onDelete={() => handleDelete(item)}
-            onEdit={() => handleEdit(item)}
-            onComplete={() => handleCompleted(item)}
-          />
-        ))}
+        {filteredList.length > 0 ? (
+          filteredList.map((item) => (
+            <TodoItem
+              key={item.id}
+              details={item}
+              onDelete={() => handleDelete(item)}
+              onEdit={() => handleEdit(item)}
+              onComplete={() => handleCompleted(item)}
+            />
+          ))
+        ) : (
+          <h4>No {selectedFilter} tasks!</h4>
+        )}
       </div>
     </div>
   );
