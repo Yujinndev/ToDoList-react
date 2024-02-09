@@ -115,11 +115,11 @@ button:hover {
 }
 
 .done {
-  background-color: rgb(60, 119, 47);
+  background-color: rgb(75, 125, 55);
 }
 
 .ongoing {
-  background-color: rgb(119, 92, 29);
+  background-color: rgb(85, 115, 125);
 }
 
 .filter-container {

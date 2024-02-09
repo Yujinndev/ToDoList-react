@@ -1,18 +1,32 @@
 import { useState, useEffect, useRef } from "react";
 import "./App.css";
 import TodoItem from "./components/TodoItem";
-import MenuItems from "./components/MenuItems";
+import PropTypes from "prop-types";
+import FilterMenu from "./components/FilterMenu";
+
+TodoItem.propTypes = {
+  details: PropTypes.object.isRequired,
+  onDelete: PropTypes.func.isRequired,
+  onEdit: PropTypes.func.isRequired,
+  onComplete: PropTypes.func.isRequired,
+};
+
+function findItemOnArray(arr, itemId) {
+  return arr.find((el) => el.id === itemId);
+}
 
 function App() {
-  const [newTodo, setNewTodo] = useState("");
-  const [editingItemId, setEditingItemId] = useState("");
   const [todos, setTodos] = useState([
     { id: 0, name: "Code In React", status: "Done" },
     { id: 1, name: "Sleep, then Repeat", status: "Ongoing" },
   ]);
-  const inputRef = useRef();
-  const [isFilterOpen, setIsFilterOpen] = useState(false);
+  const [newTodo, setNewTodo] = useState("");
+  const [editingItemId, setEditingItemId] = useState("");
   const [selectedFilter, setSelectedFilter] = useState(null);
+
+  const DEFAULT_STATUS = "Ongoing";
+
+  const inputRef = useRef();
 
   const filteredList = !selectedFilter
     ? todos
@@ -25,10 +39,6 @@ function App() {
     }
   }, [editingItemId]);
 
-  const findItemOnArray = (arr, itemId) => {
-    return arr.find((el) => el.id === itemId);
-  };
-
   const handleSave = () => {
     if (newTodo === "") return;
 
@@ -39,7 +49,10 @@ function App() {
     } else {
       // Creating a new item
       const maxId = Math.max(...todos.map((todo) => todo.id), 0);
-      setTodos([...todos, { name: newTodo, id: maxId + 1, status: "Ongoing" }]);
+      setTodos([
+        ...todos,
+        { name: newTodo, id: maxId + 1, status: DEFAULT_STATUS },
+      ]);
     }
 
     setNewTodo("");
@@ -83,20 +96,7 @@ function App() {
         </button>
       </div>
 
-      <div className="filter-container">
-        <button
-          className="dropdown-btn btn"
-          onClick={() => setIsFilterOpen(!isFilterOpen)}
-        >
-          {!isFilterOpen ? (
-            <i className="fa fa-filter" />
-          ) : (
-            <i className="fa fa-angle-up" />
-          )}
-        </button>
-
-        {isFilterOpen && <MenuItems onFilterChange={assignFilter} />}
-      </div>
+      <FilterMenu onValueChange={assignFilter} selected={selectedFilter} />
 
       <div className="lists">
         {filteredList.length > 0 ? (
